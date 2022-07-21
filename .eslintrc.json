@@ -17,6 +17,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+      "no-dynamic-require": 0,
         "import/extensions": [
            "error",
            "ignorePackages",
