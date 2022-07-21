@@ -21,15 +21,12 @@ jobs:
   
   testes:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: 14
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
