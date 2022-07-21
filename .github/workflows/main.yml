@@ -22,6 +22,7 @@ jobs:
   testes:
     runs-on: ubuntu-latest
     steps:
+      - name: Rodando os testes
         uses: actions/setup-node@v3
         with:
           node-version: 14
