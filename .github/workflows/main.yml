@@ -22,10 +22,10 @@ jobs:
   testes:
     runs-on: ubuntu-latest
     steps:
-      - name: Rodando os testes
+      - name: Rodando os testes e buildando a aplicação
         uses: actions/setup-node@v3
         with:
           node-version: 14
-      - run: npm run build
+        run: npm run build
 
 # https://docs.github.com/pt/actions/automating-builds-and-tests/building-and-testing-nodejs#introduction
