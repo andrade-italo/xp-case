@@ -1,6 +1,8 @@
 {
     "env": {
         "browser": true,
+        "jest": true,
+        "mocha": true,
         "es2021": true
     },
     "extends": [
@@ -15,5 +17,23 @@
         "@typescript-eslint"
     ],
     "rules": {
+      "no-dynamic-require": 0,
+        "import/extensions": [
+           "error",
+           "ignorePackages",
+           {
+             "js": "never",
+             "jsx": "never",
+             "ts": "never",
+             "tsx": "never"
+           }
+        ]
+     },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        }
+      }
     }
 }
