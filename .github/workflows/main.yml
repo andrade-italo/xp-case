@@ -4,28 +4,27 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-        - name: Verifica o repositório do Git
-          uses: actions/checkout@v2
+      - name: Verifica o repositório do Git
+        uses: actions/checkout@v2
 
-        - name: Instala o node com a versão
-          uses: actions/setup-node@v1
-          with:
-            node-version: 14
+      - name: Instala o node com a versão
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
 
+      - name: instalando as dependências
+        run: npm install
 
-        - name: instalando as dependências
-          run: npm install
+      - name: executando o lint para verificar se a erros
+        run: npx eslint .
 
-        - name: executando o lint para verificar se a erros
-          run: npx eslint .
-  
   testes:
     runs-on: ubuntu-latest
     steps:
-      - name: Rodando os testes e buildando a aplicação
+      - name: Iniciando as configurações
         uses: actions/setup-node@v3
         with:
           node-version: 14
+      - name: Rodando os testes e buildando a aplicação
         run: npm run build
-
 # https://docs.github.com/pt/actions/automating-builds-and-tests/building-and-testing-nodejs#introduction
