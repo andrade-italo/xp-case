@@ -12,7 +12,7 @@ interface AllData extends ClienteAttributes, CarteiraAttributes {
 
 const mockCreate = (Instance: [{}], data: AllData) => {
   if (!data) {
-    return;
+    return false;
   }
 
   const newData = data;
@@ -61,7 +61,7 @@ const AtivoMock = {
 
 };
 
-module.exports = {
+export default {
   CarteiraMock,
   ClienteMock,
   AtivoMock,
