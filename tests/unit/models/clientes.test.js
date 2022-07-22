@@ -1,32 +1,30 @@
-import chai, { use } from 'chai';
-import { stub } from 'sinon';
-import chaiHttp from 'chai-http';
+const chai = require('chai');
+const { stub } = require('sinon');
+const chaiHttp = require('chai-http');
 
-import app from '../../../src/app';
-import Carteira from '../../../src/database/models/carteira';
-import Cliente from '../../../src/database/models/cliente';
-import Ativo from '../../../src/database/models/ativo';
+const app = require('../../../src/app');
+const { Carteiras, Ativos, Clientes } = require('../../../src/database/models');
 
 const { CarteiraMock, ClienteMock, AtivoMock } = require('../../mock/models/index');
 
-use(chaiHttp);
+chai.use(chaiHttp);
 
 const { expect } = chai;
 
 describe('Rota POST /investimentos/comprar', () => {
-  let postInvestimento : any;
-  let getInvestimento: any;
-  const bodyValido: any = { codCliente: 1, codAtivo: 2, qtdeAtivo: 100 };
+  let postInvestimento;
+  let getInvestimento;
+  const bodyValido = { codCliente: 1, codAtivo: 2, qtdeAtivo: 100 };
   before(() => {
-    stub(Carteira, 'create')
+    stub(Carteiras, 'create')
       .callsFake(CarteiraMock.create);
-    stub(Carteira, 'findOne')
+    stub(Carteiras, 'findOne')
       .callsFake(CarteiraMock.findOne);
-    stub(Ativo, 'findAll')
+    stub(Ativos, 'findAll')
       .callsFake(AtivoMock.findAll);
-    stub(Ativo, 'findOne')
+    stub(Ativos, 'findOne')
       .callsFake(AtivoMock.findOne);
-    stub(Cliente, 'findOne')
+    stub(Clientes, 'findOne')
       .callsFake(ClienteMock.findOne);
   });
 
@@ -34,7 +32,7 @@ describe('Rota POST /investimentos/comprar', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
+        .post('/investimentos/comprar')
         .send(bodyValido);
       getInvestimento = await chai
         .request(app)
@@ -42,7 +40,7 @@ describe('Rota POST /investimentos/comprar', () => {
         .then(({ body }) => body);
     });
 
-    it('Ao fazer a requisição com o body valido, retorna status 201', async () => {
+    it.only('Ao fazer a requisição com o body valido, retorna status 201', async () => {
       expect(postInvestimento).to.have.status(201);
       expect(bodyValido.codCliente).to.be(getInvestimento.codCliente);
       expect(bodyValido.codAtivo).to.be(getInvestimento.codAtivo);
@@ -50,7 +48,7 @@ describe('Rota POST /investimentos/comprar', () => {
     });
   });
 
-  describe(`O endpoint recebe como entradas o código do ativo,
+  describe(`O endpoint recebe como entradas o código do ativos,
   a quantidade de ações compradas, número da conta compradora.`, async () => {
     Object.keys(bodyValido).forEach(
       (e) => {

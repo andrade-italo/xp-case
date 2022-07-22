@@ -1,6 +1,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ativos', {
+    await queryInterface.createTable('Ativos', {
       codAtivo: {
         allowNull: false,
         unique: true,
@@ -27,6 +27,6 @@ module.exports = {
     });
   },
   async down(queryInterface) {
-    await queryInterface.dropTable('ativos');
+    await queryInterface.dropTable('Ativos');
   },
 };
