@@ -6,7 +6,7 @@ require('dotenv').config();
 export interface CarteiraAttributes {
   codCliente: number,
   codAtivo: number,
-  QtdeAtivo: number,
+  qtdeAtivo: number,
 }
 
 class Carteira extends Model implements CarteiraAttributes {
@@ -14,7 +14,7 @@ class Carteira extends Model implements CarteiraAttributes {
 
   codAtivo!: number;
 
-  QtdeAtivo!: number;
+  qtdeAtivo!: number;
 
   static associate(models: any) {
     this.belongsTo(models.Cliente, {
