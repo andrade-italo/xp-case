@@ -40,8 +40,10 @@ describe('Rota POST /investimentos/comprar', () => {
         .then(({ body }) => body);
     });
 
-    it.only('Ao fazer a requisição com o body valido, retorna status 201', async () => {
+    it('Ao fazer a requisição com o body valido, retorna status 201', async () => {
       expect(postInvestimento).to.have.status(201);
+    });
+    it('Ao comprar uma ação, verifica se foi incluido no banco de dados', async () => {
       expect(bodyValido.codCliente).to.be(getInvestimento.codCliente);
       expect(bodyValido.codAtivo).to.be(getInvestimento.codAtivo);
       expect(bodyValido.qtdeAtivo).to.be(getInvestimento.qtdeAtivo);
