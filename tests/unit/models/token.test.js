@@ -1,17 +1,16 @@
-// import chai, { use } from 'chai';
-// import { stub } from 'sinon';
-// import chaiHttp from 'chai-http';
+// const chai, { use } = require('chai');
+// const { stub } = require('sinon');
+// const chaiHttp = require('chai-http');
 
-// import app from '../../../src/app';
+// const app = require('../../../src/app');
 
 // use(chaiHttp);
 
 // const { expect } = chai;
 
 // describe('A requisição deve possuir um token valido', () => {
-//   let token: any;
-//   // let postLogin: any;
-//   let postInvestimento: any;
+//   let token;
+//   let postInvestimento;
 
 //   before(async () => {
 //     await chai
@@ -39,8 +38,7 @@
 //   });
 // });
 
-// postInvestimento = await chai
-// .request(app)
-// .get('/')
-// .then(({ body }) => body);
-// });
+// // postInvestimento = await chai
+// // .request(app)
+// // .get('/')
+// // .then(({ body }) => body);

@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface) => queryInterface.bulkInsert(
-    'ativos',
+    'Ativos',
     [
       {
         qtde_ativo: 1000,
@@ -25,5 +25,5 @@ module.exports = {
     {},
   ),
 
-  down: async (queryInterface) => queryInterface.bulkDelete('ativos', null, {}),
+  down: async (queryInterface) => queryInterface.bulkDelete('Ativos', null, {}),
 };
