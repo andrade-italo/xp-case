@@ -18,4 +18,9 @@ const incrementValue = async (codCliente, valor) => {
 
 const depositoService = async (codCliente, valor) => incrementValue(codCliente, valor);
 
-module.exports = { depositoService, getContaService };
+const saqueService = async (codCliente, valor) => {
+  const { saldo } = await getContaService(codCliente);
+  if (saldo < valor) return { message: 'Saldo insuficiente' };
+  return incrementValue(codCliente, -valor);
+};
+module.exports = { depositoService, getContaService, saqueService };

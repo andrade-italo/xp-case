@@ -14,4 +14,10 @@ const depositoController = async (req, res) => {
   return res.status(StatusCodes.OK).json(deposito);
 };
 
-module.exports = { getContaController, depositoController };
+const saqueController = async (req, res) => {
+  const { codCliente, valor } = req.body;
+  const deposito = await saqueService(codCliente, valor);
+  return res.status(StatusCodes.OK).json(deposito);
+};
+
+module.exports = { getContaController, depositoController, saqueController };
