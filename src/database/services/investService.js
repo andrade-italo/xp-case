@@ -8,8 +8,8 @@ const investService = async (payload) => {
   if (!findAtivo) {
     return { message: 'Ativo não encontrado' };
   }
-  if (findAtivo.qtdeAtivo < qtdeAtivo) return { message: 'Quantidade indisponível' };
   if (findCliente.saldo < totalCompra) return { message: 'Saldo insuficiente!' };
+  if (findAtivo.qtdeAtivo < qtdeAtivo) return { message: 'Quantidade indisponível' };
 
   const findCarteira = await Carteiras.findOne({ where: { cod_ativo: codAtivo } });
 
