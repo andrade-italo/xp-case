@@ -53,10 +53,11 @@ module.exports = (sequelize, DataTypes) => {
   });
   Carteiras.associate = (models) => {
     Carteiras.belongsTo(models.Clientes, {
-      foreignKey: 'cod_cliente', as: 'clientes',
+      foreignKey: 'codCliente', as: 'clientes',
     });
     Carteiras.belongsTo(models.Ativos, {
-      foreignKey: 'cod_ativo', as: 'ativos',
+      foreignKey: 'codAtivo', as: 'Ativos',
+
     });
   };
   return Carteiras;
