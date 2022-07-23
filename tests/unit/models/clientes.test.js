@@ -97,7 +97,7 @@ describe('Rota POST /investimentos/comprar', () => {
 
     it('Ao fazer a requisição com o saldo insuficiente, retorna status 422 e { message: saldo insuficiente }', async () => {
       expect(postInvestimento).to.have.status(422);
-      expect(postInvestimento).to.be.eql({ message: 'Saldo insuficiente' });
+      expect(postInvestimento.body).to.be.eql({ message: 'Saldo insuficiente' });
     });
   });
 
@@ -115,7 +115,7 @@ describe('Rota POST /investimentos/comprar', () => {
 
     it('Ao fazer a requisição com o qtdeAtivo superior ao disponivel, retorna status 422 e a mensagem', async () => {
       expect(postInvestimento).to.have.status(422);
-      expect(postInvestimento).to.be.eql({
+      expect(postInvestimento.body).to.be.eql({
         message: 'Quantidade indisponível',
       });
     });
@@ -135,7 +135,7 @@ describe('Rota POST /investimentos/comprar', () => {
 
     it('a API retorna status 422 e o seguinte body: { "message": "Ativo não encontrado" }', async () => {
       expect(postInvestimento).to.have.status(422);
-      expect(postInvestimento).to.be.eql({ message: 'Ativo não encontrado' });
+      expect(postInvestimento.body).to.be.eql({ message: 'Ativo não encontrado' });
     });
   });
 });
