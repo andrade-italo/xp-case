@@ -1,11 +1,17 @@
 const { StatusCodes } = require('http-status-codes');
 
-const contaService = require('../services/contaService');
+const { depositoService, getContaService, saqueService } = require('../services/contaService');
 
-const contaController = async (req, res) => {
+const getContaController = async (req, res) => {
   const { codCliente } = req.params;
-  const conta = await contaService(codCliente);
+  const conta = await getContaService(codCliente);
   return res.status(StatusCodes.OK).json(conta);
 };
 
-module.exports = contaController;
+const depositoController = async (req, res) => {
+  const { codCliente, valor } = req.body;
+  const deposito = await depositoService(codCliente, valor);
+  return res.status(StatusCodes.OK).json(deposito);
+};
+
+module.exports = { getContaController, depositoController };

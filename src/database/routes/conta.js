@@ -1,9 +1,14 @@
 const express = require('express');
-const contaController = require('../controllers/contaController');
+const {
+  getContaController,
+  depositoController,
+} = require('../controllers/contaController');
 const validateGetClient = require('../middleware/validateGetClient');
+const { validateSaqueDeposito } = require('../middleware/validateSaqueDeposito');
 
 const router = express.Router();
 
-router.get('/:codCliente', validateGetClient, contaController);
+router.get('/:codCliente', validateGetClient, getContaController);
+router.post('/deposito', validateSaqueDeposito, depositoController);
 
 module.exports = router;
