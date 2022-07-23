@@ -26,6 +26,10 @@ const investService = async (payload) => {
     { qtde_ativo: +qtdeAtivo },
     { where: { cod_ativo: codAtivo, cod_cliente: codCliente } },
   );
+  await Clientes.increment(
+    { saldo: -totalCompra },
+    { where: { cod_cliente: codCliente } },
+  );
   return updateCarteira;
 };
 
