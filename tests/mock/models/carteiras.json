@@ -1,6 +1,6 @@
 [{
-  "cod_cliente": 2,
+  "codCliente": 2,
   "valor": 45.52,
-  "cod_ativo": 1,
+  "codAtivo": 1,
   "qtdeAtivo": 200
 }]

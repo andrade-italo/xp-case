@@ -5,7 +5,11 @@ const chaiHttp = require('chai-http');
 const app = require('../../../src/app');
 const { Carteiras, Ativos, Clientes } = require('../../../src/database/models');
 
-const { CarteiraMock, ClienteMock, AtivoMock } = require('../../mock/models/index');
+const {
+  CarteiraMock,
+  ClienteMock,
+  AtivoMock,
+} = require('../../mock/models/index');
 
 chai.use(chaiHttp);
 
@@ -16,16 +20,11 @@ describe('Rota POST /investimentos/comprar', () => {
   let getInvestimento;
   const bodyValido = { codCliente: 1, codAtivo: 2, qtdeAtivo: 100 };
   before(() => {
-    stub(Carteiras, 'create')
-      .callsFake(CarteiraMock.create);
-    stub(Carteiras, 'findOne')
-      .callsFake(CarteiraMock.findOne);
-    stub(Ativos, 'findAll')
-      .callsFake(AtivoMock.findAll);
-    stub(Ativos, 'findOne')
-      .callsFake(AtivoMock.findOne);
-    stub(Clientes, 'findOne')
-      .callsFake(ClienteMock.findOne);
+    stub(Carteiras, 'create').callsFake(CarteiraMock.create);
+    stub(Carteiras, 'findOne').callsFake(CarteiraMock.findOne);
+    stub(Ativos, 'findAll').callsFake(AtivoMock.findAll);
+    stub(Ativos, 'findOne').callsFake(AtivoMock.findOne);
+    stub(Clientes, 'findOne').callsFake(ClienteMock.findOne);
   });
 
   describe('Crie endpoint para realizar a compra:', () => {
@@ -40,8 +39,10 @@ describe('Rota POST /investimentos/comprar', () => {
         .then(({ body }) => body);
     });
 
-    it.only('Ao fazer a requisição com o body valido, retorna status 201', async () => {
+    it('Ao fazer a requisição com o body valido, retorna status 201', async () => {
       expect(postInvestimento).to.have.status(201);
+    });
+    it('Ao comprar uma ação, verifica se foi incluido no banco de dados', async () => {
       expect(bodyValido.codCliente).to.be(getInvestimento.codCliente);
       expect(bodyValido.codAtivo).to.be(getInvestimento.codAtivo);
       expect(bodyValido.qtdeAtivo).to.be(getInvestimento.qtdeAtivo);
@@ -50,37 +51,35 @@ describe('Rota POST /investimentos/comprar', () => {
 
   describe(`O endpoint recebe como entradas o código do ativos,
   a quantidade de ações compradas, número da conta compradora.`, async () => {
-    Object.keys(bodyValido).forEach(
-      (e) => {
-        before(async () => {
-          delete bodyValido[e];
-          postInvestimento = await chai
-            .request(app)
-            .post('/investimento/comprar')
-            .send(e);
-        });
-        it(`Ao fazer a requisição faltando algum atributo, retorna a mensagem: "${e} atribute is required`, async () => {
-          const { message } = postInvestimento.body;
-          expect(message).to.be.eql({ message: `${e} is required` });
-        });
-        it('Ao fazer a requisição faltando algum atributo, retorna status 400', async () => {
-          expect(postInvestimento).to.have.status(400);
-        });
-      },
-    );
+    before(async () => {
+      postInvestimento = await chai
+        .request(app)
+        .post('/investimentos/comprar')
+        .send({ codCliente: 1 });
+    });
+    it('Ao fazer a requisição faltando algum atributo, retorna a mensagem: "atribute is required', async () => {
+      const { message } = postInvestimento.body;
+      expect(message).to.be.contain('is required');
+    });
+    it('Ao fazer a requisição faltando algum atributo, retorna status 400', async () => {
+      expect(postInvestimento).to.have.status(400);
+    });
   });
 
   describe(' A quantidade não pode ser menor ou igual a zero.', () => {
     before(async () => {
+      const bodyQtdeInvalido = { codAtivo: 1, codCliente: 1, qtdeAtivo: 0 };
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
-        .send(bodyValido);
+        .post('/investimentos/comprar')
+        .send(bodyQtdeInvalido);
     });
 
     it('Ao fazer a requisição com o qtdeAtivo menor ou igual a zero, retorna status 422 e a mensagem', async () => {
       expect(postInvestimento).to.have.status(422);
-      expect(postInvestimento).to.be.eql({ message: '"qtdeAtivo" must be greater than or equal to 1' });
+      expect(postInvestimento.body).to.be.eql({
+        message: '"qtdeAtivo" must be greater than or equal to 1',
+      });
     });
   });
 
@@ -88,7 +87,7 @@ describe('Rota POST /investimentos/comprar', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
+        .post('/investimentos/comprar')
         .send({
           codCliente: 1,
           codAtivo: 1,
@@ -98,7 +97,7 @@ describe('Rota POST /investimentos/comprar', () => {
 
     it('Ao fazer a requisição com o saldo insuficiente, retorna status 422 e { message: saldo insuficiente }', async () => {
       expect(postInvestimento).to.have.status(422);
-      expect(postInvestimento).to.be.eql({ message: 'Saldo insuficiente' });
+      expect(postInvestimento.body).to.be.eql({ message: 'Saldo insuficiente' });
     });
   });
 
@@ -106,7 +105,7 @@ describe('Rota POST /investimentos/comprar', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
+        .post('/investimentos/comprar')
         .send({
           codCliente: 1,
           codAtivo: 1,
@@ -116,7 +115,9 @@ describe('Rota POST /investimentos/comprar', () => {
 
     it('Ao fazer a requisição com o qtdeAtivo superior ao disponivel, retorna status 422 e a mensagem', async () => {
       expect(postInvestimento).to.have.status(422);
-      expect(postInvestimento).to.be.eql({ message: 'Quantidade indisponível' });
+      expect(postInvestimento.body).to.be.eql({
+        message: 'Quantidade indisponível',
+      });
     });
   });
 
@@ -124,7 +125,7 @@ describe('Rota POST /investimentos/comprar', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
+        .post('/investimentos/comprar')
         .send({
           codCliente: 1,
           codAtivo: 9999,
@@ -134,7 +135,7 @@ describe('Rota POST /investimentos/comprar', () => {
 
     it('a API retorna status 422 e o seguinte body: { "message": "Ativo não encontrado" }', async () => {
       expect(postInvestimento).to.have.status(422);
-      expect(postInvestimento).to.be.eql({ message: 'Ativo não encontrado' });
+      expect(postInvestimento.body).to.be.eql({ message: 'Ativo não encontrado' });
     });
   });
 });
