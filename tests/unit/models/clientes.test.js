@@ -68,15 +68,16 @@ describe('Rota POST /investimentos/comprar', () => {
 
   describe(' A quantidade não pode ser menor ou igual a zero.', () => {
     before(async () => {
+      const bodyQtdeInvalido = { codAtivo: 1, codCliente: 1, qtdeAtivo: 0 };
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
-        .send(bodyValido);
+        .post('/investimentos/comprar')
+        .send(bodyQtdeInvalido);
     });
 
     it('Ao fazer a requisição com o qtdeAtivo menor ou igual a zero, retorna status 422 e a mensagem', async () => {
       expect(postInvestimento).to.have.status(422);
-      expect(postInvestimento).to.be.eql({
+      expect(postInvestimento.body).to.be.eql({
         message: '"qtdeAtivo" must be greater than or equal to 1',
       });
     });
@@ -86,7 +87,7 @@ describe('Rota POST /investimentos/comprar', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
+        .post('/investimentos/comprar')
         .send({
           codCliente: 1,
           codAtivo: 1,
@@ -104,7 +105,7 @@ describe('Rota POST /investimentos/comprar', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
+        .post('/investimentos/comprar')
         .send({
           codCliente: 1,
           codAtivo: 1,
@@ -124,7 +125,7 @@ describe('Rota POST /investimentos/comprar', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)
-        .post('/investimento/comprar')
+        .post('/investimentos/comprar')
         .send({
           codCliente: 1,
           codAtivo: 9999,
