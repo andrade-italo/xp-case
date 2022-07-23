@@ -101,7 +101,7 @@ describe('Rota POST /investimentos/comprar', () => {
     });
   });
 
-  describe('Quantidade de ativo a ser comprada não pode ser superior ao disponivel no mercado.', () => {
+  describe.only('Quantidade de ativo a ser comprada não pode ser superior ao disponivel no mercado.', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)

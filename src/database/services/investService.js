@@ -6,6 +6,7 @@ const investService = async (payload) => {
   if (!findAtivo) {
     return { message: 'Ativo não encontrado' };
   }
+  if (findAtivo.qtdeAtivo < qtdeAtivo) return { message: 'Quantidade indisponível' };
   const created = Carteiras.create({ codAtivo, codCliente, qtdeAtivo });
   return created;
 };
