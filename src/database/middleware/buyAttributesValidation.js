@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { StatusCodes } = require('http-status-codes');
 
 const attributesValidation = (req, res, next) => {
   const attributes = req.body;
@@ -11,9 +12,9 @@ const attributesValidation = (req, res, next) => {
 
   if (error) {
     if (error.message.match(/required/i)) {
-      return res.status(400).json({ message: error.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
     }
-    return res.status(422).json({ message: error.message });
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ message: error.message });
   }
   return next();
 };
