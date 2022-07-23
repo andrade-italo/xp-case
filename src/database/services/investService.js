@@ -1,4 +1,4 @@
-const { Carteiras, Ativos } = require('../models');
+const { Carteiras, Ativos, Clientes } = require('../models');
 
 const investService = async (payload) => {
   const { codAtivo, qtdeAtivo, codCliente } = payload;
@@ -8,10 +8,25 @@ const investService = async (payload) => {
   if (!findAtivo) {
     return { message: 'Ativo não encontrado' };
   }
-  if (findCliente.saldo < totalCompra) return { message: 'Saldo insuficiente!' };
   if (findAtivo.qtdeAtivo < qtdeAtivo) return { message: 'Quantidade indisponível' };
-  const created = Carteiras.create({ codAtivo, codCliente, qtdeAtivo });
-  return created;
+  if (findCliente.saldo < totalCompra) return { message: 'Saldo insuficiente!' };
+
+  const findCarteira = await Carteiras.findOne({ where: { cod_ativo: codAtivo } });
+
+  if (!findCarteira) {
+    const created = await Carteiras.create({ codAtivo, codCliente, qtdeAtivo });
+    return created;
+  }
+  await Ativos.increment(
+    { qtde_ativo: -qtdeAtivo },
+    { where: { cod_ativo: codAtivo } },
+  );
+
+  const updateCarteira = await Carteiras.increment(
+    { qtde_ativo: +qtdeAtivo },
+    { where: { cod_ativo: codAtivo } },
+  );
+  return updateCarteira;
 };
 
 module.exports = investService;
