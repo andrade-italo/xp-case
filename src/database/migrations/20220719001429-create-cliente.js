@@ -19,7 +19,7 @@ module.exports = {
         field: 'last_name',
       },
       cpf: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       saldo: {

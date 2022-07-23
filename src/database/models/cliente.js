@@ -43,13 +43,14 @@ module.exports = (sequelize, DataTypes) => {
         field: 'last_name',
       },
       cpf: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.STRING,
         unique: true,
         allowNull: true,
       },
       saldo: {
         type: DataTypes.DECIMAL,
         allowNull: true,
+        defaultValue: 0,
       },
       codCliente: {
         primaryKey: true,
