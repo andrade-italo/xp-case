@@ -7,5 +7,6 @@ module.exports = async (req, res, next) => {
   if (!cliente) {
     return res.status(StatusCodes.NOT_FOUND).json({ message: 'Cliente não encontrado' });
   }
+  if (Number(codCliente) !== req.user.codCliente) return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Acesso não autorizado' });
   return next();
 };
