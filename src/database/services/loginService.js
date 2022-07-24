@@ -13,7 +13,7 @@ const loginService = async (email, password) => {
     return { message: 'Email não cadastrado' };
   }
   const isValidPass = comparaSenha(password, cliente.senha);
-  const token = jwt.sign(email, JWT_SECRET, jwtConfig);
+  const token = jwt.sign({ email }, JWT_SECRET, jwtConfig);
 
   if (!isValidPass) {
     return { message: 'Senha invalida' };
