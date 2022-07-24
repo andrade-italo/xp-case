@@ -11,14 +11,14 @@ const authToken = async (req, res, next) => {
   if (!token) return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Token not found' });
 
   try {
-    const payload = jwt.verify(token, JWT_SECRET);
-    const cliente = await Clientes.findOne({ where: { email: payload.email } });
+    const { codCliente, email } = jwt.verify(token, JWT_SECRET);
+    const cliente = await Clientes.findOne({ where: { email } });
     if (!cliente) {
       return res
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: 'Erro ao procurar usuário do token.' });
     }
-    req.user = payload;
+    req.user = { codCliente, email };
 
     return next();
   } catch (err) {

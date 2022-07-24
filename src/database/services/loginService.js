@@ -13,7 +13,7 @@ const loginService = async (email, password) => {
     return { message: 'Email não cadastrado' };
   }
   const isValidPass = comparaSenha(password, cliente.senha);
-  const token = jwt.sign({ email }, JWT_SECRET, jwtConfig);
+  const token = jwt.sign({ email, codCliente: cliente.codCliente }, JWT_SECRET, jwtConfig);
 
   if (!isValidPass) {
     return { message: 'Senha invalida' };
@@ -30,7 +30,7 @@ const registerService = async (payload) => {
     } = payload;
     const [, created] = await Clientes.findOrCreate(
       {
-        where: { email: payload.email },
+        where: { email },
         defaults: {
           cpf,
           email,
