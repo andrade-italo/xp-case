@@ -2,7 +2,7 @@
   "name": "casexp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "start": "npm run build && node ./dist/src/index.js",
     "dev": "nodemon src/index.js",
