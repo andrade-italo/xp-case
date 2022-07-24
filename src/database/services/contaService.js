@@ -29,7 +29,6 @@ const depositoService = async (codCliente, valor) => incrementValue(codCliente, 
 
 const saqueService = async (codCliente, valor) => {
   const { saldo } = await getContaService(codCliente);
-  console.log(typeof saldo, typeof valor);
   if (Number(saldo) < Number(valor)) return { message: 'Saldo insuficiente' };
   return incrementValue(codCliente, -valor);
 };
