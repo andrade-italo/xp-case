@@ -1,4 +1,4 @@
-const { Clientes } = require('../models');
+const { Clientes, sequelize } = require('../models');
 
 const getContaService = async (codCliente) => {
   const findSaldo = await Clientes.findOne({
@@ -9,18 +9,28 @@ const getContaService = async (codCliente) => {
 };
 
 const incrementValue = async (codCliente, valor) => {
-  const depositoExecute = await Clientes.increment(
-    { saldo: valor },
-    { where: { cod_cliente: codCliente } },
-  );
-  return !!depositoExecute;
+  const t = await sequelize.transaction();
+  try {
+    const depositoExecute = await Clientes.increment(
+      { saldo: valor },
+      { where: { cod_cliente: codCliente } },
+      { transaction: t },
+    );
+
+    await t.commit();
+    return !!depositoExecute;
+  } catch (e) {
+    await t.rollback();
+    return { message: 'Algo deu errado' };
+  }
 };
 
 const depositoService = async (codCliente, valor) => incrementValue(codCliente, valor);
 
 const saqueService = async (codCliente, valor) => {
   const { saldo } = await getContaService(codCliente);
-  if (saldo < valor) return { message: 'Saldo insuficiente' };
+  console.log(typeof saldo, typeof valor);
+  if (Number(saldo) < Number(valor)) return { message: 'Saldo insuficiente' };
   return incrementValue(codCliente, -valor);
 };
 module.exports = { depositoService, getContaService, saqueService };
