@@ -11,13 +11,15 @@ const getContaController = async (req, res) => {
 const depositoController = async (req, res) => {
   const { codCliente, valor } = req.body;
   const deposito = await depositoService(codCliente, valor);
+  if (deposito.message) return res.status(500).json(deposito);
   return res.status(StatusCodes.OK).json(deposito);
 };
 
 const saqueController = async (req, res) => {
   const { codCliente, valor } = req.body;
-  const deposito = await saqueService(codCliente, valor);
-  return res.status(StatusCodes.OK).json(deposito);
+  const saque = await saqueService(codCliente, valor);
+  if (saque.message) return res.status(500).json(saque);
+  return res.status(StatusCodes.OK).json(saque);
 };
 
 module.exports = { getContaController, depositoController, saqueController };
