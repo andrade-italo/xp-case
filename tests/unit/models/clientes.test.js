@@ -27,7 +27,7 @@ describe('Rota POST /investimentos/comprar', () => {
     stub(Clientes, 'findOne').callsFake(ClienteMock.findOne);
   });
 
-  describe('Crie endpoint para realizar a compra:', () => {
+  describe.only('Crie endpoint para realizar a compra:', () => {
     before(async () => {
       postInvestimento = await chai
         .request(app)
@@ -35,8 +35,8 @@ describe('Rota POST /investimentos/comprar', () => {
         .send(bodyValido);
       getInvestimento = await chai
         .request(app)
-        .get('/carteira')
-        .then(({ body }) => body);
+        .get('/client/ativos/2')
+        .then(({ body }) => console.log(body));
     });
 
     it('Ao fazer a requisição com o body valido, retorna status 201', async () => {
