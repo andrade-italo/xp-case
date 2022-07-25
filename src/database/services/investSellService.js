@@ -15,7 +15,6 @@ const investSellService = async (payload) => {
   if (!findCarteira) {
     return { message: 'Não existe o ativo na sua carteira' };
   }
-
   if (findCarteira.qtdeAtivo < qtdeAtivo) {
     return { message: 'A quantidade do ativo é insuficiente' };
   }
@@ -33,7 +32,7 @@ const investSellService = async (payload) => {
       { transaction: t },
     );
 
-    const updateCarteira = await Carteiras.increment(
+    const [[[updateCarteira]]] = await Carteiras.increment(
       { qtde_ativo: -qtdeAtivo },
       { where: { cod_ativo: codAtivo, cod_cliente: codCliente } },
       { transaction: t },
