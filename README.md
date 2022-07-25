@@ -10,7 +10,7 @@ funcionalidades de conta digital.
 * O banco de dados foi desenvolvido com sequelize e está hospedado no supabase que usa postgreSQL como SGBD e alimenta a api em tempo real.
 * A senha salva no banco de dados é a senha depois de ser criptografadas, caso ocorra algum vazamento do banco de dados, a senha do cliente não será exposto.
 
-![alt text](./DER)
+![alt text](./DER.png)
 
 ### Api
 * A api foi desenvolvida em node.js, usando express para construção de uma api RESTFull e respeitando as camadas do modelo MSC (Model, service e controller).
