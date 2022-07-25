@@ -14,7 +14,7 @@ funcionalidades de conta digital.
 
 ## Api
 
-* <b>OBS:<b> Para o uso da api, é necessário requisitar o token na rota post /login, enviando um objeto contendo seu email e senha no <b>body da requisição: { email: emailCadastrado@email.com, senha: senhaCadastrada }<b>. Caso não tenha cadastro, seŕa necessário se registrar na rota post login/create, enviando no <b>body da requisição um objeto contendo: { cpf: 11 digitos, email: email@email.com, firstName: string, lastName: string, senha: minimo 5 digitos }<b>
+* <b>OBS:<b> Para o uso da api, é necessário requisitar o token na rota post /login, enviando um objeto contendo seu email e senha no <b>body da requisição: { email: emailCadastrado@email.com, senha: senhaCadastrada }<b>. Caso não tenha cadastro, seŕa necessário se registrar na rota post login/create, enviando no <b>body da requisição um objeto contendo: { cpf: 11 digitos, email: email@email.com, firstName: string, lastName: string, senha: minimo 5 digitos }<b>. Após obter o token, informar no hearders na chave authorization antes de requisitar.
 
 * A api foi desenvolvida em node.js, usando express para construção de uma api RESTFull e respeitando as camadas do modelo MSC (Model, service e controller).
 * Para o deploy, foi utilizado o heroku, configurado para rodar com docker.
