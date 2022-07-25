@@ -15,6 +15,8 @@ const validateSaqueDeposito = (req, res, next) => {
     }
     return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ message: error.message });
   }
+  if (Number(attributes.codCliente) !== req.user.codCliente) return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Acesso não autorizado' });
+
   return next();
 };
 
