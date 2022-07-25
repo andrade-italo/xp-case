@@ -1,18 +1,18 @@
 [{
   "qtdeAtivo": 1000,
   "valor": 74.21,
-  "cod_ativo": 1,
+  "codAtivo": 1,
   "sigla_ativo": "PETR4"
 },
 {
   "qtdeAtivo": 1000,
   "valor": 23.85,
-  "cod_ativo": 2,
+  "codAtivo": 2,
   "sigla_ativo": "VALE3"
 },
 {
   "qtdeAtivo": 1000,
   "valor": 98.87,
-  "cod_ativo": 3,
+  "codAtivo": 3,
   "sigla_ativo": "XPBR31"
 }]
