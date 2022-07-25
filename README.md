@@ -12,17 +12,22 @@ funcionalidades de conta digital.
 
 ![alt text](./DER.png)
 
-### Api
+## Api
+
+* <b>OBS:<b> Para o uso da api, é necessário requisitar o token na rota post /login, enviando um objeto contendo seu email e senha no <b>body da requisição: { email: emailCadastrado@email.com, senha: senhaCadastrada }<b>. Caso não tenha cadastro, seŕa necessário se registrar na rota post login/create, enviando no <b>body da requisição um objeto contendo: { cpf: 11 digitos, email: email@email.com, firstName: string, lastName: string, senha: minimo 5 digitos }<b>
+
 * A api foi desenvolvida em node.js, usando express para construção de uma api RESTFull e respeitando as camadas do modelo MSC (Model, service e controller).
 * Para o deploy, foi utilizado o heroku, configurado para rodar com docker.
-
-### Integração continua (CI)
-* Foi implementado a automatização dos testes de eslint em todos os push/pull request
 
 ### 🚀 [Minha api](https://case-xp-italo.herokuapp.com/) 
 ```
 https://case-xp-italo.herokuapp.com/
 ```
+
+</br>
+### Integração continua (CI)
+* Foi implementado a automatização dos testes de eslint em todos os push/pull request
+
 
 ## :heavy_check_mark: Validações
 > #### A rota post `/login`:
