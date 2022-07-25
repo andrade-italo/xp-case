@@ -11,41 +11,39 @@ const investService = async (payload) => {
   });
   const totalCompra = (findAtivo.valor * qtdeAtivo).toFixed(2);
 
-  if (findCliente.saldo < totalCompra) { return { message: 'Saldo insuficiente!' }; }
-  if (findAtivo.qtdeAtivo < qtdeAtivo) { return { message: 'Quantidade indisponível' }; }
-
-  const findCarteira = await Carteiras.findOne({
-    where: { cod_ativo: codAtivo, cod_cliente: codCliente },
-  });
+  if (Number(findCliente.saldo) < totalCompra) { return { message: 'Saldo insuficiente!' }; }
+  if (Number(findAtivo.qtdeAtivo) < qtdeAtivo) { return { message: 'Quantidade indisponível' }; }
 
   try {
-    if (!findCarteira) {
-      const created = await Carteiras.create(
-        { codAtivo, codCliente, qtdeAtivo },
-        { transaction: t },
-      );
-      return created;
-    }
     await Ativos.increment(
       { qtde_ativo: -qtdeAtivo },
       { where: { cod_ativo: codAtivo } },
       { transaction: t },
     );
 
-    const updateCarteira = await Carteiras.increment(
-      { qtde_ativo: +qtdeAtivo },
-      { where: { cod_ativo: codAtivo, cod_cliente: codCliente } },
-      { transaction: t },
-    );
     await Clientes.increment(
       { saldo: -totalCompra },
       { where: { cod_cliente: codCliente } },
       { transaction: t },
     );
 
-    await t.commit();
+    const [[[updateSucess], updateFail]] = await Carteiras.increment(
+      { qtde_ativo: +qtdeAtivo },
+      { where: { cod_ativo: codAtivo, cod_cliente: codCliente } },
+      { transaction: t },
+    );
 
-    return updateCarteira;
+    if (!updateFail) {
+      const created = await Carteiras.create(
+        { codAtivo, codCliente, qtdeAtivo },
+        { transaction: t },
+      );
+      await t.commit();
+      return created;
+    }
+
+    await t.commit();
+    return updateSucess;
   } catch (e) {
     await t.rollback();
     return { message: 'Algo deu errado' };

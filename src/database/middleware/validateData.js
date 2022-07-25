@@ -13,5 +13,8 @@ module.exports = async (req, res, next) => {
   if (!findCliente) {
     return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ message: 'Cliente não encontrado' });
   }
+
+  if (Number(codCliente) !== req.user.codCliente) return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Acesso não autorizado' });
+
   return next();
 };
