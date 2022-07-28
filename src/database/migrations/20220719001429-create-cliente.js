@@ -35,7 +35,7 @@ module.exports = {
         allowNull: false,
       },
       admin: {
-        type: DataTypes.BOOLEAN,
+        type: Sequelize.BOOLEAN,
       },
     });
   },
