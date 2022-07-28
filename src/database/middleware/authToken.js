@@ -18,7 +18,7 @@ const authToken = async (req, res, next) => {
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: 'Erro ao procurar usuário do token.' });
     }
-    req.user = { codCliente, email };
+    req.user = { codCliente, email, admin: cliente.admin };
 
     return next();
   } catch (err) {
