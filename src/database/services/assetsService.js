@@ -7,4 +7,10 @@ const assetsService = async (codAtivo) => {
   });
   return findAtivo;
 };
-module.exports = assetsService;
+
+const addAtivo = async (payload) => {
+  const createAtivo = await Ativos.create(payload);
+  return createAtivo;
+};
+
+module.exports = { assetsService, addAtivo };
