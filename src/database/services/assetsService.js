@@ -8,9 +8,12 @@ const assetsService = async (codAtivo) => {
   return findAtivo;
 };
 
-const addAtivo = async (payload) => {
-  const createAtivo = await Ativos.create(payload);
-  return createAtivo;
+const addAtivo = async (payload, admin) => {
+  if (admin) {
+    const createAtivo = await Ativos.create(payload);
+    return createAtivo;
+  }
+  return 'Erro';
 };
 
 module.exports = { assetsService, addAtivo };
