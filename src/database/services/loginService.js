@@ -38,6 +38,7 @@ const registerService = async (payload) => {
           lastName,
           senha: passwordHash(senha),
         },
+        transaction: t,
       },
       { transaction: t },
     );
