@@ -9,7 +9,8 @@ const assetsController = async (req, res) => {
 };
 const addAtivoController = async (req, res) => {
   const payload = req.body;
-  const assets = await assetsService.addAtivo(payload);
+  const { admin } = req.user;
+  const assets = await assetsService.addAtivo(payload, admin);
   return res.status(StatusCodes.CREATED).json(assets);
 };
 
