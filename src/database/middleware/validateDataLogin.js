@@ -10,6 +10,7 @@ const validateCreateLogin = (req, res, next) => {
     email: Joi.string().email().required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
+    admin: Joi.boolean().not().required(),
   }).validate(attributes);
 
   if (error) {

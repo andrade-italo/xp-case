@@ -26,7 +26,7 @@ const registerService = async (payload) => {
   const t = await sequelize.transaction();
   try {
     const {
-      senha, cpf, email, firstName, lastName, admin = false,
+      senha, cpf, email, firstName, lastName, admin,
     } = payload;
     const [{ codCliente }, created] = await Clientes.findOrCreate(
       {
@@ -36,14 +36,14 @@ const registerService = async (payload) => {
           email,
           firstName,
           lastName,
-          senha: passwordHash(senha),
           admin,
+          senha: passwordHash(senha),
         },
         transaction: t,
       },
     );
     if (!created) return { message: 'Email ja cadastrado' };
-    const token = jwt.sign({ email, codCliente }, JWT_SECRET, jwtConfig);
+    const token = jwt.sign({ email, codCliente, admin }, JWT_SECRET, jwtConfig);
 
     await t.commit();
 
