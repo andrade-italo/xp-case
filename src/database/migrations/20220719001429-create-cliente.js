@@ -34,6 +34,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      admin: {
+        type: DataTypes.BOOLEAN,
+      },
     });
   },
   async down(queryInterface) {

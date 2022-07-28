@@ -65,6 +65,10 @@ module.exports = (sequelize, DataTypes) => {
       senha: {
         type: DataTypes.STRING,
       },
+      admin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
     },
 
     {
