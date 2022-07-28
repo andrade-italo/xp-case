@@ -19,7 +19,7 @@ const loginService = async (email, password) => {
     return { message: 'Senha invalida' };
   }
 
-  return { token };
+  return { token, codCliente: cliente.codCliente };
 };
 
 const registerService = async (payload) => {
@@ -28,7 +28,7 @@ const registerService = async (payload) => {
     const {
       senha, cpf, email, firstName, lastName,
     } = payload;
-    const [, created] = await Clientes.findOrCreate(
+    const [{ codCliente }, created] = await Clientes.findOrCreate(
       {
         where: { email },
         defaults: {
@@ -40,14 +40,13 @@ const registerService = async (payload) => {
         },
         transaction: t,
       },
-      { transaction: t },
     );
     if (!created) return { message: 'Email ja cadastrado' };
-    const token = jwt.sign({ email }, JWT_SECRET, jwtConfig);
+    const token = jwt.sign({ email, codCliente }, JWT_SECRET, jwtConfig);
 
     await t.commit();
 
-    return { token };
+    return { token, codCliente };
   } catch (e) {
     await t.rollback();
     return { message: 'Algo deu errado' };
