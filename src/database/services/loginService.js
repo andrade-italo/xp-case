@@ -7,13 +7,13 @@ const jwtConfig = {
   expiresIn: '1h',
 };
 
-const loginService = async (email, password) => {
+const loginService = async (email, password, admin) => {
   const cliente = await Clientes.findOne({ where: { email } });
   if (!cliente) {
     return { message: 'Email não cadastrado' };
   }
   const isValidPass = comparaSenha(password, cliente.senha);
-  const token = jwt.sign({ email, codCliente: cliente.codCliente }, JWT_SECRET, jwtConfig);
+  const token = jwt.sign({ email, admin, codCliente: cliente.codCliente }, JWT_SECRET, jwtConfig);
 
   if (!isValidPass) {
     return { message: 'Senha invalida' };
@@ -26,7 +26,7 @@ const registerService = async (payload) => {
   const t = await sequelize.transaction();
   try {
     const {
-      senha, cpf, email, firstName, lastName,
+      senha, cpf, email, firstName, lastName, admin = false,
     } = payload;
     const [{ codCliente }, created] = await Clientes.findOrCreate(
       {
@@ -37,6 +37,7 @@ const registerService = async (payload) => {
           firstName,
           lastName,
           senha: passwordHash(senha),
+          admin,
         },
         transaction: t,
       },
